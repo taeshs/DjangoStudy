@@ -8,7 +8,8 @@ from blog.models import Post
 
 def post_list(request):
     post_list = Post.published.all()
-    paginator = Paginator(post_list, 3)
+    per_page = request.GET.get('per_page', 5)
+    paginator = Paginator(post_list, per_page)
     page_number = request.GET.get('page', 1)
     posts = paginator.page(page_number)
     return render(request, 'blog/post/list.html', {'posts': posts})
