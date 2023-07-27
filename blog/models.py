@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from taggit.managers import TaggableManager
 
 
 # Create your models here.
@@ -33,6 +34,7 @@ class Post(models.Model):
         choices=Status.choices,
         default=Status.DRAFT
     )
+    tags = TaggableManager()
 
     objects = models.Manager()  # 기본 매니저
     published = PublishedManager()  # 사용자 정의 매니저
@@ -52,6 +54,7 @@ class Post(models.Model):
                              self.publish.month,
                              self.publish.day,
                              self.slug])
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE,
